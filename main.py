@@ -19,9 +19,9 @@ connect_str_input = client.get_secret("connectStrInput")
 connect_str_output = client.get_secret("connectStrOutput")
 connect_str_servicebus = client.get_secret("connectStrServicebus")
 queue_name = "main"
-print(connect_str_input)
-print(connect_str_output)
-print(connect_str_servicebus)
+print(connect_str_input.value)
+print(connect_str_output.value)
+print(connect_str_servicebus.value)
 
 output_container_name = "main"
 
@@ -33,7 +33,7 @@ download_file_path = "input.mp4"
 
 def downloadBlob(connect_str, container_name, blob_name, local_file_path):
 
-    blob_service_client = BlobServiceClient.from_connection_string(connect_str)
+    blob_service_client = BlobServiceClient.from_connection_string(connect_str.value)
 
     try:
 
@@ -49,7 +49,7 @@ def downloadBlob(connect_str, container_name, blob_name, local_file_path):
 
 def uploadBlob(connect_str, container_name, blob_name, local_file_path):
 
-    blob_service_client = BlobServiceClient.from_connection_string(connect_str)
+    blob_service_client = BlobServiceClient.from_connection_string(connect_str.value)
 
     try:
 
@@ -99,7 +99,7 @@ def getBlobFromEventGrid(event):
 while True:
     print("Waiting for messages...")
     renewer = AutoLockRenewer()
-    with ServiceBusClient.from_connection_string(connect_str_servicebus) as client:
+    with ServiceBusClient.from_connection_string(connect_str_servicebus.value) as client:
         with client.get_queue_receiver(queue_name) as receiver:
             for msg in receiver.receive_messages():
                 renewer.register(receiver, msg, max_lock_renewal_duration=86400)
