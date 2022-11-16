@@ -19,9 +19,6 @@ connect_str_input = client.get_secret("connectStrInput")
 connect_str_output = client.get_secret("connectStrOutput")
 connect_str_servicebus = client.get_secret("connectStrServicebus")
 queue_name = "main"
-print(connect_str_input.value)
-print(connect_str_output.value)
-print(connect_str_servicebus.value)
 
 output_container_name = "main"
 
